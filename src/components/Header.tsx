@@ -7,7 +7,7 @@ import Logo from "@/components/Logo";
 import { ButtonLink } from "@/components/ui/Button";
 import { navigation } from "@/data/site";
 
-export default function Header() {
+export default function Header({ logoSrc }: { logoSrc?: string | null }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -67,7 +67,7 @@ export default function Header() {
       <div className="mx-auto flex h-[var(--header-h)] w-full max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
         {/* Mark + company name, pinned top-left */}
         <Link href="/" aria-label={`${"The Invest Coach, Inc."} — home`} className="shrink-0">
-          <Logo />
+          <Logo src={logoSrc} />
         </Link>
 
         {/* Desktop navigation */}
