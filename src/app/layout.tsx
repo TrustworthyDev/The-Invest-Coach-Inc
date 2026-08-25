@@ -4,6 +4,7 @@ import BackgroundTheme from "@/components/BackgroundTheme";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { company } from "@/data/site";
+import { resolveLogoSrc } from "@/lib/logo";
 import "./globals.css";
 
 const inter = Inter({
@@ -83,6 +84,8 @@ const organizationJsonLd = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const logoSrc = resolveLogoSrc();
+
   return (
     <html lang="en" className={`${inter.variable} ${cinzel.variable}`}>
       <body className="flex min-h-dvh flex-col">
@@ -94,13 +97,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
 
         <BackgroundTheme />
-        <Header />
+        <Header logoSrc={logoSrc} />
 
         <main id="main" className="relative z-10 flex-1 pt-[var(--header-h)]">
           {children}
         </main>
 
-        <Footer />
+        <Footer logoSrc={logoSrc} />
 
         <script
           type="application/ld+json"

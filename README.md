@@ -40,18 +40,18 @@ mission, story, FAQs, testimonials, nav, and contact details. Change wording the
 page that uses it updates. No copy is hard-coded into layout components except section
 headings unique to a single page.
 
-## Swapping in the real logo
+## The logo
 
-The header currently renders a vector recreation of the gold roofline mark so nothing ships
-broken. To use the supplied artwork:
+**Save the gold roofline artwork as `public/logo.png` — that's the only step.**
+[`src/lib/logo.ts`](src/lib/logo.ts) detects it at build time and the header and footer switch
+to it automatically. `logo.svg` and `logo.webp` also work, in that priority order.
 
-1. Drop the file at `public/logo.png` (transparent PNG or SVG, roughly 2:1).
-2. Add to `.env.local`:
-   ```
-   NEXT_PUBLIC_LOGO_SRC=/logo.png
-   ```
+Until a file is there, [`Logo.tsx`](src/components/Logo.tsx) renders a vector build of the same
+mark — hollow left gable, two overlapping roof planes, chimney, four-pane window, and the
+sweeping gold baseline — so nothing ever ships broken and the lockup stays crisp at any size.
 
-Layout, sizing, and the gold company name beside it stay the same.
+Either way the company name sits beside the mark in the logo's gold, per the draft note.
+To serve the file from a CDN instead, set `NEXT_PUBLIC_LOGO_SRC` in `.env.local`.
 
 ## Wiring up the contact form
 

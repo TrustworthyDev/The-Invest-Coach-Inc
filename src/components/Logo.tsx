@@ -2,53 +2,67 @@ import Image from "next/image";
 import { company } from "@/data/site";
 
 /**
- * Brand mark.
+ * Brand mark — the gold roofline.
  *
- * By default this renders a vector recreation of the gold roofline + whistle mark
- * so the site ships with no missing-asset placeholders. To use the real artwork,
- * drop the supplied PNG at `public/logo.png` and set NEXT_PUBLIC_LOGO_SRC=/logo.png
- * (or pass `src` directly) — everything else about the layout stays the same.
+ * Renders a vector build of the mark by default so the lockup stays crisp at any
+ * size. If the supplied raster artwork is present at `public/logo.png` (or .svg /
+ * .webp) it is used instead — see `src/lib/logo.ts`, which detects the file and
+ * passes it down through the layout.
  */
-const LOGO_SRC = process.env.NEXT_PUBLIC_LOGO_SRC;
 
 export function LogoMark({ className = "" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 128 74"
+      viewBox="0 0 199 83"
       role="img"
       aria-hidden="true"
       focusable="false"
       className={className}
     >
       <defs>
-        <linearGradient id="tic-gold" x1="0" y1="0" x2="0.35" y2="1">
-          <stop offset="0%" stopColor="#fdf6e3" />
-          <stop offset="22%" stopColor="#f0c96a" />
-          <stop offset="52%" stopColor="#d19a1e" />
-          <stop offset="78%" stopColor="#f7dc94" />
-          <stop offset="100%" stopColor="#8a5f10" />
+        {/* Front faces: light falls from the upper left, deepening down-right. */}
+        <linearGradient id="tic-face" x1="0.1" y1="0" x2="0.75" y2="1">
+          <stop offset="0%" stopColor="#fff4cd" />
+          <stop offset="16%" stopColor="#f2cd64" />
+          <stop offset="46%" stopColor="#d9a520" />
+          <stop offset="74%" stopColor="#bd8712" />
+          <stop offset="100%" stopColor="#e0b13b" />
         </linearGradient>
-        <linearGradient id="tic-gold-soft" x1="0" y1="0" x2="1" y2="0.6">
-          <stop offset="0%" stopColor="#ad7a14" />
-          <stop offset="45%" stopColor="#fbecc4" />
-          <stop offset="100%" stopColor="#ad7a14" />
+        {/* Receding plane sits a shade deeper so the valley between roofs reads. */}
+        <linearGradient id="tic-face-back" x1="0.15" y1="0" x2="0.8" y2="1">
+          <stop offset="0%" stopColor="#f0cd7a" />
+          <stop offset="40%" stopColor="#c28d16" />
+          <stop offset="100%" stopColor="#8f620f" />
+        </linearGradient>
+        <linearGradient id="tic-sweep" x1="0" y1="0" x2="1" y2="0.35">
+          <stop offset="0%" stopColor="#a9760f" />
+          <stop offset="20%" stopColor="#f2d178" />
+          <stop offset="46%" stopColor="#fff6d5" />
+          <stop offset="72%" stopColor="#e0af33" />
+          <stop offset="100%" stopColor="#8a5f10" />
         </linearGradient>
       </defs>
 
-      <g fill="url(#tic-gold)">
-        {/* Rear gable + chimney */}
-        <path d="M50 52 L86 8 L122 52 L109 52 L86 20.5 L63 52 Z" />
-        <path d="M100 15 h10 v16 l-10 -12 Z" />
-        {/* Front gable */}
-        <path d="M6 52 L38 14 L70 52 L57.5 52 L38 27 L18.5 52 Z" />
-        {/* Window */}
-        <path d="M26 34 h7 v7 h-7 Z M36 34 h7 v7 h-7 Z M26 44 h7 v7 h-7 Z M36 44 h7 v7 h-7 Z" />
+      {/* Painted back to front so the roofs overlap the way the artwork does. */}
+      {/* Right roof plane */}
+      <path d="M127 24 L170 66 L156 66 L113 36 Z" fill="url(#tic-face-back)" />
+      {/* Chimney, seated on the right plane */}
+      <path d="M133 12 L144 12 L144 41 L133 30 Z" fill="url(#tic-face)" />
+      {/* Centre roof plane */}
+      <path d="M96 13 L131 66 L119 66 L84 28 Z" fill="url(#tic-face)" />
+      {/* Left gable — hollow chevron */}
+      <path d="M18 68 L65 17 L112 68 L98 68 L65 31 L32 68 Z" fill="url(#tic-face)" />
+      {/* Four-pane window */}
+      <g fill="url(#tic-face)">
+        <rect x="55" y="42" width="8" height="8" rx="1.2" />
+        <rect x="65.5" y="42" width="8" height="8" rx="1.2" />
+        <rect x="55" y="52.5" width="8" height="8" rx="1.2" />
+        <rect x="65.5" y="52.5" width="8" height="8" rx="1.2" />
       </g>
-
-      {/* Sweeping baseline */}
+      {/* Sweeping baseline, crossing in front of the roof feet */}
       <path
-        d="M2 62 Q64 48 126 58 L126 63.5 Q64 53.5 2 67.5 Z"
-        fill="url(#tic-gold-soft)"
+        d="M2 77 C60 68, 130 64.5, 197 70 C130 68.5, 60 73.5, 2 83 Z"
+        fill="url(#tic-sweep)"
       />
     </svg>
   );
@@ -59,21 +73,25 @@ type LogoProps = {
   variant?: "lockup" | "mark";
   /** Show the "Strategy. Innovation. Growth." line under the wordmark. */
   withTagline?: boolean;
+  /** Path to raster artwork in /public. Falls back to the vector mark when absent. */
+  src?: string | null;
   className?: string;
 };
 
 export default function Logo({
   variant = "lockup",
   withTagline = false,
+  src = null,
   className = "",
 }: LogoProps) {
-  const mark = LOGO_SRC ? (
+  const mark = src ? (
     <Image
-      src={LOGO_SRC}
+      src={src}
       alt=""
-      width={128}
-      height={74}
+      width={398}
+      height={166}
       priority
+      sizes="(max-width: 640px) 90px, 130px"
       className="h-full w-auto object-contain"
     />
   ) : (
@@ -91,7 +109,7 @@ export default function Logo({
 
   return (
     <span className={`flex items-center gap-2.5 sm:gap-3 ${className}`}>
-      <span className="h-9 shrink-0 sm:h-11 lg:h-12">{mark}</span>
+      <span className="h-8 shrink-0 sm:h-10 lg:h-11">{mark}</span>
       <span className="flex min-w-0 flex-col leading-none">
         {/* Company name sits directly after the mark, in the logo's gold. */}
         <span className="text-gold-gradient font-display text-[0.95rem] font-bold tracking-[0.02em] whitespace-nowrap sm:text-lg lg:text-xl">

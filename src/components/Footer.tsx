@@ -12,14 +12,14 @@ const companyLinks = [
   { label: "Start a Project", href: "/start-a-project" },
 ];
 
-export default function Footer() {
+export default function Footer({ logoSrc }: { logoSrc?: string | null }) {
   return (
     <footer className="relative z-10 mt-auto border-t border-gold-400/15 bg-ink-950/70 backdrop-blur-md">
       <Container className="py-14 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-10">
           <div>
             <Link href="/" aria-label={`${company.name} — home`} className="inline-block">
-              <Logo withTagline />
+              <Logo withTagline src={logoSrc} />
             </Link>
             <p className="mt-6 max-w-sm text-[0.95rem] leading-relaxed text-mist-400">
               Helping businesses grow faster, work smarter, and increase revenue — through
