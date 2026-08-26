@@ -57,7 +57,7 @@ export default function ProcessSteps({ detailed = false }: { detailed?: boolean 
         className="rule-gold absolute top-13 right-0 left-0 hidden h-px lg:block"
       />
 
-      <ol className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+      <ol className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {processSteps.map((step, i) => (
           <Reveal as="li" key={step.number} delay={i * 110} className="group relative h-full">
             {/* Arrow between cards on desktop */}

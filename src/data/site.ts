@@ -197,14 +197,14 @@ export const processSteps = [
       "Once you're ready, we'll begin implementing your customized growth strategy while keeping you informed every step of the way.",
     points: ["Clear Communication", "Professional Execution", "Measurable Progress"],
   },
-  {
-    number: "4",
-    kicker: "Scale",
-    title: "Grow & Scale — Follow-Up",
-    summary:
-      "Our partnership doesn't end at launch. We continuously refine, optimize, and improve your strategy to help your business stay ahead of the competition.",
-    points: ["Better Performance", "Smarter Decisions", "Sustainable Growth"],
-  },
+  // {
+  //   number: "4",
+  //   kicker: "Scale",
+  //   title: "Grow & Scale — Follow-Up",
+  //   summary:
+  //     "Our partnership doesn't end at launch. We continuously refine, optimize, and improve your strategy to help your business stay ahead of the competition.",
+  //   points: ["Better Performance", "Smarter Decisions", "Sustainable Growth"],
+  // },
 ] as const;
 
 export const mission = {
